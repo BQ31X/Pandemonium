@@ -1,0 +1,15 @@
+name: agentic-hackathon
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - google-adk==1.5.0
+      - python-dotenv
+      - google-generativeai
+      - pytest
+      - black
+      - flake8
+

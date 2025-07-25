@@ -1,0 +1,28 @@
+# Ignore environment files
+.env
+*.env
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Mac system files
+.DS_Store
+
+# Conda environment folders (if any ever exist locally)
+env/
+.conda/
+conda-meta/
+
+# VSCode / editor folders (optional)
+.vscode/
+
+# Log files and temp output
+*.log
+*.tmp
+
+# Compiled bytecode
+*.so
+*.dll
+*.dylib
