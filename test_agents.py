@@ -38,13 +38,43 @@ def test_agent(agent_name):
         return False
 
 def main():
-    """Run all agent tests."""
-    print("🧪 Testing all agents...\n")
+    """Run agent tests."""
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Test agents')
+    parser.add_argument('agents', nargs='*', help='Specific agents to test (default: all)')
+    parser.add_argument('--list', action='store_true', help='List available agents')
+    args = parser.parse_args()
+    
+    if args.list:
+        print("Available agents:")
+        for agent in AGENTS:
+            print(f"  • {agent}")
+        return 0
+    
+    # Determine which agents to test
+    if args.agents:
+        agents_to_test = []
+        for agent in args.agents:
+            if agent in AGENTS:
+                agents_to_test.append(agent)
+            else:
+                print(f"❌ Unknown agent: {agent}")
+                print(f"Available agents: {', '.join(AGENTS)}")
+                return 1
+    else:
+        agents_to_test = AGENTS
+    
+    # Run tests
+    if len(agents_to_test) == 1:
+        print(f"🧪 Testing {agents_to_test[0]} agent...\n")
+    else:
+        print(f"🧪 Testing {len(agents_to_test)} agents...\n")
     
     passed = 0
     failed = 0
     
-    for agent in AGENTS:
+    for agent in agents_to_test:
         if test_agent(agent):
             passed += 1
         else:
@@ -53,7 +83,10 @@ def main():
     print(f"\n📊 Results: {passed} passed, {failed} failed")
     
     if failed == 0:
-        print("🎉 All agents working! Safe to commit.")
+        if len(agents_to_test) == 1:
+            print(f"🎉 {agents_to_test[0]} working!")
+        else:
+            print("🎉 All tested agents working! Safe to commit.")
         return 0
     else:
         print("⚠️  Some agents broken. Fix before committing.")
