@@ -5,6 +5,14 @@ This directory contains all testing tools and documentation for coordinated SpyG
 
 ## 📁 Testing Categories
 
+### 📋 [Design Philosophy](./testing_design_philosophy.md) - "Why we built it this way"
+**Strategic decisions about LLM vs deterministic approaches**
+- Where we use LLM (agents being tested) vs deterministic methods (testing infrastructure)
+- Benefits: reproducible evaluation, clean separation of concerns, competition readiness
+- Rationale for judges and team coordination
+
+**When to read:** Understanding our testing methodology, judge submissions, competition alignment
+
 ### 🔧 [Agent Testing](./agent_testing.md) - "Does my code work?"
 **For ensuring your agents load and function correctly**
 - Unit tests for agent imports and basic functionality
@@ -62,6 +70,7 @@ This directory contains all testing tools and documentation for coordinated SpyG
 
 | **Tool** | **Purpose** | **Location** | **Guide** |
 |----------|-------------|--------------|-----------|
+| **Design Philosophy** | LLM vs deterministic approach rationale | [Design Philosophy](./testing_design_philosophy.md) | For judges & methodology |
 | `test_agents.py` | Agent import/function testing | Root directory | [Agent Testing](./agent_testing.md) |
 | `shared_word_pool.py` | 250-word competition vocabulary | Root directory | [Prompt Testing](./prompt_testing.md) |
 | `spymaster_tester.py` | Scenario generation for prompts & operative testing | Root directory | [Prompt Testing](./prompt_testing.md) |
