@@ -64,7 +64,7 @@ This directory contains all testing tools and documentation for coordinated SpyG
 |----------|-------------|--------------|-----------|
 | `test_agents.py` | Agent import/function testing | Root directory | [Agent Testing](./agent_testing.md) |
 | `shared_word_pool.py` | 250-word competition vocabulary | Root directory | [Prompt Testing](./prompt_testing.md) |
-| `spymaster_tester.py` | Scenario generation for prompts | Root directory | [Prompt Testing](./prompt_testing.md) |
+| `spymaster_tester.py` | Scenario generation for prompts & operative testing | Root directory | [Prompt Testing](./prompt_testing.md) |
 | `check_and_commit.sh` | Automated test-then-commit | Root directory | [Agent Testing](./agent_testing.md) |
 | CI Pipeline | Automated testing on push | `.github/workflows/` | [Agent Testing](./agent_testing.md) |
 
@@ -90,9 +90,13 @@ This directory contains all testing tools and documentation for coordinated SpyG
 # 1. Ensure code works (always)
 python test_agents.py
 
-# 2. Test/improve prompts (iterative)  
+# 2a. Test/improve Spymaster prompts (iterative)  
 python spymaster_tester.py --late-game
 # → Copy to ADK web interface for testing
+
+# 2b. Test/improve Operative prompts (iterative)
+python spymaster_tester.py -o --red 3 --blue 2
+# → Copy "FOR OPERATIVE AGENT" section to ADK web interface
 
 # 3. Commit safely
 ./check_and_commit.sh "your changes"

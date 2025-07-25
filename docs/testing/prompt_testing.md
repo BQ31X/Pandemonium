@@ -89,16 +89,41 @@ python spymaster_tester.py --list-categories
 python spymaster_tester.py --count 5 --red 2 --blue 1
 ```
 
+#### **Operative Testing Format**
+Generate scenarios specifically designed for operative agent testing:
+```bash
+# Basic operative test
+python spymaster_tester.py --operative
+
+# Short alias (recommended)
+python spymaster_tester.py -o --red 2 --blue 2
+
+# High-pressure operative scenario
+python spymaster_tester.py -o --late-game
+```
+
 ### Output Format
-The tool generates prompts in this clean, readable format:
+
+#### **Standard Format (Spymaster Testing)**
 ```
 Target words (red): BATMAN, JOKER. Opponent words (blue): HERO. Civilian words (neutral): CAPE. ASSASSIN: GOTHAM
+```
+
+#### **Operative Format (with `--operative` or `-o`)**
+```
+=== FOR EVALUATION (Human Tester) ===
+Target words (red): BATMAN, JOKER. Opponent words (blue): HERO. Civilian words (neutral): CAPE. ASSASSIN: GOTHAM
+
+=== FOR OPERATIVE AGENT (Copy-Paste Ready) ===
+Board words: HERO, BATMAN, CAPE, JOKER, GOTHAM
+Clue: VILLAIN 2
 ```
 
 **Design rationale:**
 - **UPPERCASE words**: The actual game data (most important)
 - **lowercase indicators**: Helpful context without visual clutter
 - **ASSASSIN emphasis**: Highlights the critical risk word
+- **Dual output**: Evaluation context + clean agent input for operative testing
 
 ### Typical Workflows
 
@@ -109,9 +134,11 @@ Target words (red): BATMAN, JOKER. Opponent words (blue): HERO. Civilian words (
 4. Iterate prompts based on performance
 
 #### **For Operative Development:**
-1. Use same word pool and scenarios as Spymaster team member
-2. Test clue interpretation: `python spymaster_tester.py --late-game`
-3. Verify operative guessing logic with high-pressure scenarios
+1. Generate operative test scenarios: `python spymaster_tester.py --operative --red 3 --blue 2`
+2. Use **"FOR OPERATIVE AGENT"** section for clean agent input (no category spoilers)
+3. Use **"FOR EVALUATION"** section to judge if agent picked correctly
+4. Test high-pressure scenarios: `python spymaster_tester.py -o --late-game`
+5. Coordinate with Spymaster developer using same word pool and scenarios
 
 #### **For Integration Testing:**
 1. Generate full board: `python spymaster_tester.py --early-game`

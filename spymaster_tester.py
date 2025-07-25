@@ -54,7 +54,63 @@ def generate_test_prompt(red_count=3, blue_count=1, neutral_count=1, assassin_co
     
     return ". ".join(prompt_parts)
 
+def generate_sample_clue(targets):
+    """Generate a simple sample clue for target words (basic implementation)"""
+    import random
+    
+    # Simple clue generation - in real game, spymaster would do this
+    sample_clues = {
+        # Animals
+        frozenset(['SHARK', 'WHALE', 'FISH']): ('OCEAN', 3),
+        frozenset(['CAT', 'DOG', 'BIRD']): ('PET', 3),
+        frozenset(['LION', 'TIGER', 'BEAR']): ('WILD', 3),
+        
+        # Pop culture  
+        frozenset(['BATMAN', 'SUPERMAN', 'SPIDERMAN']): ('HERO', 3),
+        frozenset(['JOKER', 'VADER', 'VOLDEMORT']): ('VILLAIN', 3),
+        frozenset(['HOGWARTS', 'JEDI', 'MATRIX']): ('FANTASY', 3),
+        
+        # Actions
+        frozenset(['JUMP', 'LEAP', 'HOP']): ('MOVEMENT', 3),
+        frozenset(['RUN', 'WALK', 'CLIMB']): ('EXERCISE', 3),
+        
+        # Objects
+        frozenset(['PHONE', 'LAPTOP', 'SCREEN']): ('TECHNOLOGY', 3),
+        frozenset(['HAMMER', 'KNIFE', 'SWORD']): ('TOOL', 3),
+    }
+    
+    # Try to find a matching clue pattern
+    target_set = frozenset(targets)
+    for pattern, (clue, num) in sample_clues.items():
+        if pattern.issubset(target_set):
+            return clue, min(num, len(targets))
+    
+    # Fallback: generic clues
+    fallback_clues = ['CONNECT', 'RELATED', 'TOGETHER', 'SIMILAR', 'GROUP']
+    return random.choice(fallback_clues), len(targets)
+
+def format_for_operative(standard_prompt, targets, blue_words, neutral_words, assassin_words):
+    """Format test data for operative testing with evaluation context and clean agent input"""
+    
+    # Generate sample clue
+    clue_word, clue_number = generate_sample_clue(targets)
+    
+    # All words in random order (like real game board)
+    all_words = targets + blue_words + neutral_words + assassin_words
+    random.shuffle(all_words)
+    
+    result = []
+    result.append("=== FOR EVALUATION (Human Tester) ===")
+    result.append(standard_prompt)
+    result.append("")
+    result.append("=== FOR OPERATIVE AGENT (Copy-Paste Ready) ===")
+    result.append(f"Board words: {', '.join(all_words)}")
+    result.append(f"Clue: {clue_word} {clue_number}")
+    
+    return "\n".join(result)
+
 def main():
+    import random
     parser = argparse.ArgumentParser(description='Generate word combinations for SpymasterAgent testing')
     parser.add_argument('--red', '--target', '-r', type=int, default=3, help='Number of RED target words (default: 3)')
     parser.add_argument('--blue', '--opponent', '-b', type=int, default=1, help='Number of BLUE opponent words (default: 1)')
@@ -68,6 +124,7 @@ def main():
     parser.add_argument('--early-game', action='store_true', help='Early game scenario (9 red, 8 blue, 7 neutral, 1 assassin)')
     parser.add_argument('--mid-game', action='store_true', help='Mid game scenario (5 red, 4 blue, 3 neutral, 1 assassin)')
     parser.add_argument('--late-game', action='store_true', help='Late game scenario (2 red, 1 blue, 1 neutral, 1 assassin)')
+    parser.add_argument('--operative-format', '--operative', '-o', action='store_true', help='Generate format for operative testing (includes sample clue and clean board)')
     
     args = parser.parse_args()
     
@@ -94,12 +151,53 @@ def main():
         print(f"Generating {args.count} test prompt(s):\n")
     
     for i in range(args.count):
-        prompt = generate_test_prompt(targets, blue, neutral, assassin, args.category)
-        if prompt:
+        # Generate word lists first  
+        if args.category:
+            if args.category not in WORD_CATEGORIES:
+                print(f"Unknown category: {args.category}")
+                print(f"Available: {', '.join(WORD_CATEGORIES.keys())}")
+                continue
+            word_pool = WORD_CATEGORIES[args.category].copy()
+        else:
+            word_pool = []
+            for words in WORD_CATEGORIES.values():
+                word_pool.extend(words)
+        
+        total_words = targets + blue + neutral + assassin
+        if len(word_pool) < total_words:
+            print(f"Not enough words in pool for {total_words} total words")
+            continue
+            
+        selected = random.sample(word_pool, total_words)
+        target_words = selected[:targets]
+        blue_words = selected[targets:targets + blue]
+        neutral_words = selected[targets + blue:targets + blue + neutral]
+        assassin_words = selected[targets + blue + neutral:total_words]
+        
+        # Generate standard prompt
+        prompt_parts = [f"Target words (red): {', '.join(target_words)}"]
+        if blue_words:
+            prompt_parts.append(f"Opponent words (blue): {', '.join(blue_words)}")
+        if neutral_words:
+            prompt_parts.append(f"Civilian words (neutral): {', '.join(neutral_words)}")
+        if assassin_words:
+            prompt_parts.append(f"ASSASSIN: {', '.join(assassin_words)}")
+        standard_prompt = ". ".join(prompt_parts)
+        
+        # Output based on format
+        if args.operative_format:
+            operative_output = format_for_operative(standard_prompt, target_words, blue_words, neutral_words, assassin_words)
             if args.count > 1:
-                print(f"{i+1}. {prompt}")
+                print(f"{i+1}.")
+                print(operative_output)
             else:
-                print(prompt)
+                print(operative_output)
+        else:
+            if args.count > 1:
+                print(f"{i+1}. {standard_prompt}")
+            else:
+                print(standard_prompt)
+        
         if args.count > 1:
             print()
 
