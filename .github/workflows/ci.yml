@@ -1,0 +1,49 @@
+name: CI - Test All Agents
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        
+    - name: Cache conda
+      uses: actions/cache@v3
+      with:
+        path: ~/conda_pkgs_dir
+        key: ${{ runner.os }}-conda-${{ hashFiles('environment.yml') }}
+        
+    - name: Set up Conda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        environment-file: environment.yml
+        activate-environment: agentic-hackathon
+        use-mamba: true
+        
+    - name: Run smoke tests
+      shell: bash -l {0}
+      run: |
+        conda activate agentic-hackathon
+        chmod +x TEST.sh
+        ./TEST.sh
+        
+    - name: Run individual agent tests
+      shell: bash -l {0} 
+      run: |
+        conda activate agentic-hackathon
+        echo "Testing individual agents..."
+        python test_agents.py spymaster
+        python test_agents.py operative
+        python test_agents.py gamemaster
