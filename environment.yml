@@ -12,4 +12,5 @@ dependencies:
       - pytest
       - black
       - flake8
+      - sentence-transformers
 
