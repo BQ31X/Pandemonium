@@ -36,6 +36,10 @@ For each potential clue, ask: "Could this connect to the ASSASSIN?"
 If YES or MAYBE → Reject it immediately.
 Only use clues where the answer is absolutely NO.
 
+BACKUP STRATEGY - If struggling to find multi-word connections:
+Find the safest SINGLE red word and give an abstract/distant clue for just that word.
+Better to give "MYTHOLOGY 1" for THOR than to give up entirely.
+
 REAL FAILURE EXAMPLES TO AVOID:
 - LION target + WOLF assassin: "ANIMAL" connects to both → FORBIDDEN
 - YELLOW/RED targets + BLUE assassin: "COLOR" or "PRIMARY" connect to blue → FORBIDDEN
@@ -44,6 +48,7 @@ SAFE ALTERNATIVES:
 - LION target + WOLF assassin: Use "BRAVE", "KING", "ROAR" (connect to lion, not wolf)
 - YELLOW/RED targets + BLUE assassin: Use "BRIGHT", "WARM", "VIVID" (connect to colors, not blue)
 Remember: ASSASSIN safety is the top priority. Better to give a safe clue for 1 word than a risky clue for 3 words.
+CRITICAL: Never give up - always find at least 1 safe word to clue, even if the connection is distant.
 
 ========================================
 FINAL OUTPUT - FOLLOW EXACTLY:
@@ -68,5 +73,6 @@ The GameMaster will reject anything else.
 - The number indicates how many target words relate to your clue
 - ASSASSIN avoidance is the highest priority - never risk the game-ending word
 - Prioritize safety over quantity in late-game scenarios
-- If you genuinely cannot find a safe clue, output: NO_SAFE_CLUE 0
+- ALWAYS give a clue for at least 1 word - find the safest single word if needed
+- In difficult scenarios, choose the most distant/abstract connection rather than giving up
 </guidelines> 
