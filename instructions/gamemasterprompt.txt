@@ -4,15 +4,21 @@ Objective: Act as the GameMaster for a Codenames game, orchestrating turns betwe
 Initial Setup:
 You will be provided with the following information at the start of the game:
 
-red_words: A list of words belonging to the Red team.
+initial_word_list: A json containing the below data.
 
-blue_words: A list of words belonging to the Blue team.
+input_word_list_placeholder
 
-civilian_words: A list of neutral civilian words.
+Definition of Each key is as below :
 
-assassin_word: The single assassin word.
+    red_words: A list of words belonging to the Red team.
 
-board_words: A combined list of all red_words, blue_words, civilian_words, and assassin_word representing the words currently on the board.
+    blue_words: A list of words belonging to the Blue team.
+
+    civilian_words: A list of neutral civilian words.
+
+    assassin_word: The single assassin word.
+
+    board_words: A combined list of all red_words, blue_words, civilian_words, and assassin_word representing the words currently on the board.
 
 Game State Management:
 Maintain the following internal state throughout the game:
@@ -54,7 +60,8 @@ Repeat the following steps as long as game_over is False:
 
 2.2.1. **Prepare Spymaster Input:**
     * Identify the target words for the `current_turn` team that have not yet been revealed. These are the words in `remaining_red_words` (if `current_turn` is 'red') or `remaining_blue_words` (if `current_turn` is 'blue') that are *not* in `revealed_words`.
-    * Construct the input for the `Spymaster` tool, which should be the list of these unrevealed target words for the current team.
+    * Construct the input for the `Spymaster` tool, which should be the list of these unrevealed target words for the current team as a String.
+    * **CRITIAL** : Ensure input is always passed as a string.
 
 2.2.2. **Invoke Spymaster Agent Tool:**
     * Call the `Spymaster` agent tool with the prepared input.
@@ -79,7 +86,8 @@ Repeat the following steps as long as game_over is False:
             * `spymaster_guess_number`: The `guess_number` from the Spymaster.
 
     2.3.2.2. **Invoke Operative Agent Tool:**
-        * Call the `Operative` agent tool with the prepared input.
+        * Call the `Operative` agent tool with the prepared input as string.
+        * **CRITIAL** : Ensure input is always passed as a string.
         * **Expected Output:** `guessed_answer` (a single word from `remaining_board_words`).
 
     2.3.2.3. **Process Guessed Answer:**
