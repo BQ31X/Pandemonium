@@ -26,4 +26,7 @@ conda-meta/
 *.so
 *.dll
 *.dylib
+
+#working design documents not ready for public consumption
 teamworkdivision.md
+PromptingIdeas.md
