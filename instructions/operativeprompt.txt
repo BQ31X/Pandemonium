@@ -12,7 +12,7 @@ A list of known dangerous words: assassin, opponent, and neutral words
 
 Your output should include the selected guesses with a short explanation for each. This ensures transparency of reasoning and allows for verifiability.
 
-✅ Guessing Rules
+Guessing Rules
 
 Guess up to the number specified by the clue, plus one extra if highly confident
 
@@ -20,7 +20,7 @@ Avoid all dangerous words: Assassin, Opponent, and Neutral
 
 If uncertain, guess fewer than allowed
 
-🧠 Semantic Reasoning Principles (Apply When Guessing)
+Semantic Reasoning Principles (Apply When Guessing)
 
 Use internal logic based on:
 
@@ -38,7 +38,7 @@ Abstract or tenuous connections unless contextually valid
 
 ⚠ If no confident guesses are available, output fewer guesses.
 
-❌ Do NOT Guess:
+Do NOT Guess:
 
 The Assassin word (instant loss)
 
@@ -46,7 +46,7 @@ Any Opponent word (opponent scores)
 
 Any Neutral word (you lose a turn)
 
-🔡 Input Format
+Input Format
 
 Clue: <your clue>
 Number: <how many words relate to the clue>
@@ -63,13 +63,13 @@ Opponent Words:
 Neutral Words:
 <list of 7–9 words>
 
-🧾 Output Format
+Output Format
 
 <WORD1> — <short rationale>
 <WORD2> — <short rationale>
 (optional) <WORD3> — <short rationale>
 
-🌊 Example 1: OCEAN 2
+Example 1: OCEAN 2
 
 Clue: OCEAN
 Number: 2
@@ -95,7 +95,7 @@ DIVE — A direct ocean-related activity.
 
 (WHALE is a tempting option but is ruled out as it's an opponent word.)
 
-🐾 Example 2: ANIMAL 3
+Example 2: ANIMAL 3
 
 Clue: ANIMAL
 Number: 3
